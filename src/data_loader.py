@@ -1,7 +1,7 @@
 import fastf1
 import pandas as pd
 import os
-
+    
 def load_race_data(year, gp, session_type="R"):
     session = fastf1.get_session(year, gp, session_type)
     session.load()
