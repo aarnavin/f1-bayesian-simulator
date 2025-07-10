@@ -29,8 +29,6 @@ def get_race_data(year, gp):
         df = pd.read_csv(filename)
     else:
         df = load_race_data(year, gp)
-        os.makedirs(DATA_DIR, exist_ok=True)
-        df.to_csv(filename, index=False)
     return df
 
 
@@ -38,7 +36,7 @@ if st.button("Load race data"):
     with st.spinner("Loading race data..."):
         df = get_race_data(selected_year, selected_gp)
 
-        # Convert timedelta columns to string for display (optional)
+        # Convert timedelta columns to string for display
         time_cols = ['LapTime', 'PitOutTime', 'PitInTime']
         for col in time_cols:
             if col in df.columns:
