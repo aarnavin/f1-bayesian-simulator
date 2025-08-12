@@ -8,6 +8,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 
 from src.data_loader import load_race_data
+from src.modelling import predict_podium
 
 st.title("🏁 F1 Bayesian Race Predictor")
 st.write("Welcome! This app helps simulate race outcomes using Bayesian models.")
@@ -15,7 +16,7 @@ st.write("Welcome! This app helps simulate race outcomes using Bayesian models."
 
 st.header("📥 Load Race from FastF1")
 years = list(range(2018, 2025))
-gps = ["Monaco", "Silverstone", "Monza", "Austria", "Spa", "Suzuka", "Abu Dhabi"]
+gps = ["Monaco", "Silverstone", "Monza", "Austria", "Spa", "Suzuka", "Abu Dhabi", "Chinese"]
 
 col1, col2 = st.columns(2)
 selected_year = col1.selectbox("Year", years)
@@ -44,3 +45,12 @@ if st.button("Load race data"):
 
         st.dataframe(df)
         st.success(f"Data loaded and cached: {selected_gp} {selected_year}")
+
+if st.button("Predict Podium Positions"):
+    with st.spinner("Looking into the future..."):
+        df = get_race_data(selected_year, selected_gp)
+        podium_df = predict_podium(df)
+
+        st.subheader("🏆 Predicted Podium")
+        st.table(podium_df[["Driver", "PredictedPosition"]])
+
